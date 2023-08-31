@@ -1,8 +1,8 @@
-import { bcryptjs } from "bcryptjs";
-import { User } from "../models/user";
-import { jwt } from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
-export const register = async (req, res) => {
+const register = async (req, res) => {
     const { email, password, name } = req.body;
 
     try {
@@ -15,7 +15,7 @@ export const register = async (req, res) => {
             });
         }
 
-        const hashedPassword = await bcryptjs.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
             name,
@@ -23,9 +23,12 @@ export const register = async (req, res) => {
             password: hashedPassword
         });
 
+        const token = jwt.sign({email: user.email, id: user._id}, process.env.JWT_SECRET, { expiresIn: "1h" });
+
         res.status(201).json({
             success: true,
-            data: user
+            data: user,
+            token
         });
     } catch (error) {
         res.status(500).json({
@@ -35,7 +38,7 @@ export const register = async (req, res) => {
     }
 }
 
-export const login = async (req, res) => {
+const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -60,7 +63,7 @@ export const login = async (req, res) => {
     }
 }
 
-export const me = async (req, res) => {
+const me = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
 
@@ -75,4 +78,10 @@ export const me = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'An error occurred' });
     }
+}
+
+module.exports = {
+    register,
+    login,
+    me
 }

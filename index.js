@@ -1,16 +1,12 @@
-import express from 'express';
-import { mongoose } from "mongoose";
+const express = require('express');
+const mongoose = require("mongoose");
 require('dotenv').config();
-import bodyParser from 'body-parser';
-import logger from 'morgan';
-import cors from 'cors';
+const bodyParser = require("body-parser");
 
-import { User } from "./models/user";
-import { authRouter } from "./routes/authRoutes";
+const authRouter = require("./src/routes/authRoutes");
 
 const app = express();
 
-app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
