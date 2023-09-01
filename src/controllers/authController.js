@@ -55,7 +55,8 @@ const login = async (req, res) => {
         }
 
         return res.status(200).json({
-            token: jwt.sign({ id: user._id }, process.env.JWT_SECRET),
+            data: user,
+            token: jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" }),
             success: true,
         });
     } catch (error) {
@@ -65,7 +66,7 @@ const login = async (req, res) => {
 
 const me = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user.id);
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

@@ -7,10 +7,8 @@ const userSchema = new mongoose.Schema({
     // roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role' }],
     // permissions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Permission' }],
     status: { type: String, enum: ['active', 'inactive'], default: 'active'},
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now }
-});
+}, {timestamps: true});
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('users', userSchema);
 
 module.exports = User;
