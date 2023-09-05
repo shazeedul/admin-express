@@ -1,0 +1,160 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "admin-express",
+    "dateExported": "2023-09-05T05:01:23.079Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "eb7424b3-726d-4de6-ab73-c7061ab1bc8c",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Login",
+            "url": "{{baseurl}}/login",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-09-05T04:31:32.695Z",
+            "modified": "2023-09-05T04:32:41.390Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"syedshazeedul@gmail.com\",\n  \"password\": \"12345678\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7abe157c-5448-4da3-b424-f9fcee857192",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Login Copy",
+            "url": "{{baseurl}}/register",
+            "method": "POST",
+            "sortNum": 15000,
+            "created": "2023-09-05T04:33:49.509Z",
+            "modified": "2023-09-05T04:34:18.780Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Syed Shazeedul Islam\",\n  \"email\": \"syedshazeedul@gmail.com\",\n  \"password\": \"12345678\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1ac7b78d-64d0-468f-9dd2-3b664f709f7a",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Me",
+            "url": "{{baseurl}}/me",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-09-05T04:33:10.557Z",
+            "modified": "2023-09-05T04:33:43.601Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "fe80a239-857d-4d0b-83b6-5ccd4aa832de",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Create Role",
+            "url": "{{baseurl}}/roles",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-09-05T04:35:14.823Z",
+            "modified": "2023-09-05T04:37:12.561Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Admin\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "88142ff7-08c8-466e-831f-987abad2ec4c",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Create Permission",
+            "url": "{{baseurl}}/permissions",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-09-05T04:37:17.237Z",
+            "modified": "2023-09-05T04:39:57.474Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"permissions\": [\n    \"create-user\",\n    \"update-user\",\n    \"show-user\",\n    \"delete-user\"\n    ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "29fbecaf-d0cf-40cd-83e0-2d0f08b2d559",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Assign Permission to Role",
+            "url": "{{baseurl}}/assign-role-permission",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-09-05T04:40:13.965Z",
+            "modified": "2023-09-05T04:59:22.852Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleId\": \"64f6b597e9d54d8014c439de\",\n  \"permissions\": [\n    \"create-user\",\n    \"update-user\",\n    \"show-user\",\n    \"delete-user\"\n    ]\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "10df939a-0978-4680-b735-7e64edd3c903",
+            "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
+            "containerId": "",
+            "name": "Assign Role to User",
+            "url": "{{baseurl}}/assign-role",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-09-05T04:59:26.375Z",
+            "modified": "2023-09-05T05:00:43.134Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\": \"64f58f6aa8bed5c5edc22a24\",\n  \"roleId\": \"64f6b597e9d54d8014c439de\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        }
+    ],
+    "settings": {
+        "envId": "bb89445d-e5f3-4a0e-9095-75d587214d0a"
+    }
+}

@@ -2,8 +2,9 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const Role = require("../models/role");
 const Permission = require("../models/permission");
-const { body, validationResult, check } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const { hasPermission } = require("../utils/helper.util");
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -92,6 +93,18 @@ const me = async (req, res) => {
 
 // roles create api
 const createRole = async (req, res) => {
+  // if user has permission to create role
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const userRoles = user.roles;
+  const hasPermissions = await hasPermission(userRoles[0], "create:role");
+  if (!hasPermissions) {
+    return res.status(403).json({ error: "Permission denied" });
+  }
+  
   try {
     const { name } = req.body;
 
