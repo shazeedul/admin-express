@@ -28,7 +28,7 @@
             "_id": "7abe157c-5448-4da3-b424-f9fcee857192",
             "colId": "28e5ac3f-a112-403f-a84c-fde98505268b",
             "containerId": "",
-            "name": "Login Copy",
+            "name": "Login",
             "url": "{{baseurl}}/register",
             "method": "POST",
             "sortNum": 15000,
