@@ -4,7 +4,6 @@ const Role = require("../models/role");
 const Permission = require("../models/permission");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const { hasPermission } = require("../utils/helper.util");
 
 const register = async (req, res) => {
   const { email, password, name } = req.body;
@@ -26,6 +25,13 @@ const register = async (req, res) => {
       email,
       password: hashedPassword,
     });
+
+    // if roles database has User role, assign User role to user
+    const userRole = await Role.findOne({ name: "Writer" });
+    if (userRole) {
+      user.roles.push(userRole._id);
+      await user.save();
+    }
 
     const token = jwt.sign(
       { email: user.email, id: user._id },
@@ -53,13 +59,19 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({
+        success: false,
+        error: "User not found"
+      });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({
+        success: false,
+        error: "Invalid credentials"
+      });
     }
 
     return res.status(200).json({
@@ -70,7 +82,10 @@ const login = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred" });
+    res.status(500).json({
+      success: false,
+      error: "An error occurred"
+    });
   }
 };
 
@@ -93,18 +108,6 @@ const me = async (req, res) => {
 
 // roles create api
 const createRole = async (req, res) => {
-  // if user has permission to create role
-  const user = await User.findById(req.user.id);
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  const userRoles = user.roles;
-  const hasPermissions = await hasPermission(userRoles[0], "create:role");
-  if (!hasPermissions) {
-    return res.status(403).json({ error: "Permission denied" });
-  }
-  
   try {
     const { name } = req.body;
 

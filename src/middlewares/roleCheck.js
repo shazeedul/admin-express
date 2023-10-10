@@ -1,17 +1,19 @@
 // middleware/role.js
-module.exports = (requiredPermissions) => {
-    return (req, res, next) => {
-    const userRoles = req.user.roles; // Assuming user roles are attached to the request
-    const hasPermission = userRoles.some((roleId) => {
-      // Check if any of the user's roles have the required permission
-      const role = findRoleById(roleId); // Implement a function to fetch the role from the database
-      return role.permissions.some((permissionId) => requiredPermissions.includes(permissionId));
-    });
+const User = require('../models/user');
+const { hasPermission } = require('../utils/helper.util');
 
-    if (hasPermission) {
-      next(); // User has the required permission
-    } else {
-      res.status(403).json({ message: 'Permission denied' });
-    }
+module.exports = (requiredPermissions) => {
+    return async (req, res, next) => {
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+    
+      const userRoles = user.roles;
+      const hasPermissions = await hasPermission(userRoles[0], requiredPermissions);
+      if (!hasPermissions) {
+        return res.status(403).json({ error: "Permission denied" });
+      }
+      next();
   };
 };
