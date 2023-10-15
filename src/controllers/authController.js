@@ -39,9 +39,16 @@ const register = async (req, res) => {
       { expiresIn: "1h" }
     );
 
+    const response = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      roles: user.roles,
+    };
+
     res.status(201).json({
       success: true,
-      data: user,
+      data: response,
       token,
     });
   } catch (error) {
@@ -74,8 +81,15 @@ const login = async (req, res) => {
       });
     }
 
+    const response = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      roles: user.roles,
+    };
+
     return res.status(200).json({
-      data: user,
+      data: response,
       token: jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       }),
@@ -97,9 +111,16 @@ const me = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+    const response = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      roles: user.roles,
+    };
+
     return res.status(200).json({
       success: true,
-      data: user,
+      data: response,
     });
   } catch (error) {
     res.status(500).json({ error: "An error occurred" });
